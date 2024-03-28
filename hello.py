@@ -40,10 +40,22 @@ class User(db.Model):
     def __repr__(self):
         return '<User %r>' % self.username
 
+class RelacaoUsuarios(db.Model):
+    __tablename__ = 'relacao_usuarios'
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(64))
+    # Adicione mais campos conforme necessário
+
 
 class NameForm(FlaskForm):
     name = StringField('What is your name?', validators=[DataRequired()])
     submit = SubmitField('Submit')
+
+
+@app.route('/relacao-usuarios')
+def relacao_usuarios():
+    dados = RelacaoUsuarios.query.all()
+    return render_template('relacao_usuarios.html', dados=dados)
 
 
 @app.shell_context_processor
