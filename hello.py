@@ -78,10 +78,3 @@ def index():
         return redirect(url_for('index'))
     return render_template('index.html', form=form, name=session.get('name'),
                            known=session.get('known', False))
-@app.route('/usuarios')
-def usuarios():
-    dados = User.query.all()  # Obtém todos os usuários do banco de dados
-    return render_template('relacao_usuarios.html', dados=dados)
-
-if __name__ == '__main__':
-    app.run(debug=True)
