@@ -17,7 +17,7 @@
 <h2>Usuários Cadastrados</h2>
 <ul>
     {% for user in users %}
-        <table>{{ user.username }}</table>
+        <table>{{ user.username }} - {{ user.role }}</table>
     {% endfor %}
 </ul>
 {% endblock %}
