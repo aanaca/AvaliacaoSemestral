@@ -36,11 +36,15 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), unique=True, index=True)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+    role = db.relationship('Role', backref='users')
+
+    @property
+    def role_name(self):
+        return self.role.name if self.role else 'User'
 
     def __repr__(self):
         return '<User %r>' % self.username
-
-
+        
 class NameForm(FlaskForm):
     name = StringField('What is your name?', validators=[DataRequired()])
     submit = SubmitField('Submit')
@@ -65,9 +69,10 @@ def internal_server_error(e):
 def index():
     form = NameForm()
     if form.validate_on_submit():
-        role_name = request.form.get('role')  # Obtém o cargo do formulário
+        role_name = request.form.get('role', 'user')  # Obtém o cargo do formulário ou usa 'user' como padrão
         role = Role.query.filter_by(name=role_name).first()
         if role is None:
+            # Cria um novo cargo se não existir
             role = Role(name=role_name)
             db.session.add(role)
             db.session.commit()
@@ -82,6 +87,7 @@ def index():
             session['known'] = True
         session['name'] = form.name.data
         return redirect(url_for('index'))
+    
     users = User.query.all()
     return render_template('index.html', form=form, name=session.get('name'),
                            known=session.get('known', False), users=users)
