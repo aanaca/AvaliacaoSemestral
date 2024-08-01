@@ -1,24 +1,24 @@
-@app.route('/', methods=['GET', 'POST'])
-def index():
-    form = NameForm()
-    if form.validate_on_submit():
-        role_name = request.form.get('role')  # Obtém o cargo do formulário
-        role = Role.query.filter_by(name=role_name).first()
-        if role is None:
-            role = Role(name=role_name)
-            db.session.add(role)
-            db.session.commit()
-        
-        user = User.query.filter_by(username=form.name.data).first()
-        if user is None:
-            user = User(username=form.name.data, role=role)
-            db.session.add(user)
-            db.session.commit()
-            session['known'] = False
-        else:
-            session['known'] = True
-        session['name'] = form.name.data
-        return redirect(url_for('index'))
-    users = User.query.all()
-    return render_template('index.html', form=form, name=session.get('name'),
-                           known=session.get('known', False), users=users)
+
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Flasky{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>Hello, {% if name %}{{ name }}{% else %}Stranger{% endif %}!</h1>
+    {% if not known %}
+    <p>Pleased to meet you!</p>
+    {% else %}
+    <p>Happy to see you again!</p>
+    {% endif %}
+</div>
+{{ wtf.quick_form(form) }}
+
+<h2>Usuários Cadastrados</h2>
+<ul>
+    {% for user in users %}
+        <table>{{ user.username }} - {{ user.role }}</table>
+    {% endfor %}
+</ul>
+{% endblock %}
