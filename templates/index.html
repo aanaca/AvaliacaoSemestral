@@ -12,9 +12,14 @@
     <p>Happy to see you again!</p>
     {% endif %}
 </div>
-{% endblock %}
 
-<h2>Lista de Usuários</h2>
+<!-- Formulário de Adição de Usuário -->
+<form method="POST" action="{{ url_for('index') }}">
+    {{ wtf.quick_form(form) }}
+</form>
+
+<!-- Lista de Usuários -->
+<h2>Usuários Cadastrados</h2>
 <table class="table table-striped table-bordered">
     <thead>
         <tr>
@@ -31,6 +36,5 @@
         {% endfor %}
     </tbody>
 </table>
-{{ wtf.quick_form(form) }}
 {% endblock %}
 
