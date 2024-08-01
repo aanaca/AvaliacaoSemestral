@@ -14,10 +14,40 @@
 </div>
 {{ wtf.quick_form(form) }}
 
+<form method="POST" action="{{ url_for('index') }}">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+        {{ form.name.label(class="form-label") }}
+        {{ form.name(class="form-control", size=32) }}
+    </div>
+    <div class="form-group">
+        <label for="role">Role:</label>
+        <select name="role" id="role" class="form-control">
+            <option value="user">User</option>
+            <option value="mod">Mod</option>
+            <option value="admin">Admin</option>
+        </select>
+    </div>
+    <div class="form-group">
+        {{ form.submit(class="btn btn-primary") }}
+    </div>
+</form>
+
 <h2>Usuários Cadastrados</h2>
-<ul>
-    {% for user in users %}
-        <table>{{ user.username }} - {{ user.role }}</table>
-    {% endfor %}
-</ul>
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Cargo</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.role.name if user.role else 'User' }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}
