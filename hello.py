@@ -61,14 +61,20 @@ def page_not_found(e):
 def internal_server_error(e):
     return render_template('500.html'), 500
 
-
 @app.route('/', methods=['GET', 'POST'])
 def index():
     form = NameForm()
     if form.validate_on_submit():
+        role_name = request.form.get('role')  # Obtém o cargo do formulário
+        role = Role.query.filter_by(name=role_name).first()
+        if role is None:
+            role = Role(name=role_name)
+            db.session.add(role)
+            db.session.commit()
+        
         user = User.query.filter_by(username=form.name.data).first()
         if user is None:
-            user = User(username=form.name.data)
+            user = User(username=form.name.data, role=role)
             db.session.add(user)
             db.session.commit()
             session['known'] = False
@@ -79,6 +85,3 @@ def index():
     users = User.query.all()
     return render_template('index.html', form=form, name=session.get('name'),
                            known=session.get('known', False), users=users)
-
-if __name__ == '__main__':
-    app.run(debug=True)
