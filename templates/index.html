@@ -5,35 +5,10 @@
 
 {% block page_content %}
 <div class="page-header">
-    <h1>Hello, {% if name %}{{ name }}{% else %}Stranger{% endif %}!</h1>
-    {% if not known %}
-    <p>Pleased to meet you!</p>
-    {% else %}
-    <p>Happy to see you again!</p>
-    {% endif %}
+    <h1>Usuários Cadastrados</h1>
 </div>
-{{ wtf.quick_form(form) }}
 
-<form method="POST" action="{{ url_for('index') }}">
-    {{ form.hidden_tag() }}
-    <div class="form-group">
-        {{ form.name.label(class="form-label") }}
-        {{ form.name(class="form-control", size=32) }}
-    </div>
-    <div class="form-group">
-        <label for="role">Role:</label>
-        <select name="role" id="role" class="form-control">
-            <option value="user">User</option>
-            <option value="mod">Mod</option>
-            <option value="admin">Admin</option>
-        </select>
-    </div>
-    <div class="form-group">
-        {{ form.submit(class="btn btn-primary") }}
-    </div>
-</form>
-
-<h2>Usuários Cadastrados</h2>
+<h2>Lista de Usuários</h2>
 <table class="table table-striped table-bordered">
     <thead>
         <tr>
@@ -51,3 +26,4 @@
     </tbody>
 </table>
 {% endblock %}
+
