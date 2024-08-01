@@ -16,9 +16,10 @@
 {{ wtf.quick_form(form) }}
 
 <h2>Usuários Cadastrados</h2>
-<table>
+<tr>
     {% for user in users %}
-        <li>{{ user.username }} - {{ user.role }}</li>
+        <td>{{ user.username }}</td>
+        <td>{{ user.role }</td>}
     {% endfor %}
-</table>
+</tr>
 {% endblock %}
