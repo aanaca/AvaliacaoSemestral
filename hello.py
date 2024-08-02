@@ -86,5 +86,5 @@ def index():
     # Buscar todos os usuários
     users = User.query.all()
     
-    return render_template('index.html', form=form, name=session.get('name'),
+    return render_templates('index.html', form=form, name=session.get('name'),
                            known=session.get('known', False), users=users)
