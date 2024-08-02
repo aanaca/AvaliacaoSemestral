@@ -65,16 +65,9 @@ def internal_server_error(e):
 def index():
     form = NameForm()
     if form.validate_on_submit():
-        role_name = request.form.get('role', 'user')  # Obtém o cargo do formulário ou usa 'user' como padrão
-        role = Role.query.filter_by(name=role_name).first()
-        if role is None:
-            role = Role(name=role_name)
-            db.session.add(role)
-            db.session.commit()
-        
         user = User.query.filter_by(username=form.name.data).first()
         if user is None:
-            user = User(username=form.name.data, role=role)
+            user = User(username=form.name.data)
             db.session.add(user)
             db.session.commit()
             session['known'] = False
@@ -82,9 +75,11 @@ def index():
             session['known'] = True
         session['name'] = form.name.data
         return redirect(url_for('index'))
+    return render_template('index.html', form=form, name=session.get('name'),
+                           known=session.get('known', False))
     
     # Buscar todos os usuários
     users = User.query.all()
     
-    return render_templates('index.html', form=form, name=session.get('name'),
+    return render_template('index.html', form=form, name=session.get('name'),
                            known=session.get('known', False), users=users)
