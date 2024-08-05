@@ -82,7 +82,6 @@ def index():
             session['known'] = True
         session['name'] = form.name.data
         return redirect(url_for('index'))
-
     
     # Buscar todos os usuários
     users = User.query.all()
