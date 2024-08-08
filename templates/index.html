@@ -22,17 +22,19 @@
     <div class="form-group">
         <label for="role">Função:</label>
         <select name="role" id="role" class="form-control">
-            <option value="user">User</option>
-            <option value="mod">Moderator</option>
-            <option value="admin">Administrator</option>
+            <option value="User">User</option>
+            <option value="Moderator">Moderator</option>
+            <option value="Administrator">Administrator</option>
         </select>
     </div>
     <div class="form-group">
-        {{ form.submit(class="btn btn-default") }}
+        {{ form.submit(class="btn btn-primary") }}
     </div>
 </form>
 
-<h2>Relação de Usuários Cadastrados</h2>
+<h2>Total de Usuários Cadastrados: {{ total_users }}</h2>
+
+<h3>Relação de Usuários Cadastrados</h3>
 <table class="table">
     <thead>
         <tr>
@@ -49,5 +51,25 @@
         {% endfor %}
     </tbody>
 </table>
-{% endblock %}
 
+<h3>Usuários por Função</h3>
+
+{% for role, users in users_by_role.items() %}
+    <h4>{{ role }}s</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nome do Usuário</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.username }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endfor %}
+
+{% endblock %}
