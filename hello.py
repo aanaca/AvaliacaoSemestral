@@ -64,6 +64,17 @@ def internal_server_error(e):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     form = NameForm()
+    
+    # Contador de usuários
+    total_users = User.query.count()
+    
+    # Separar usuários por função
+    users_by_role = {
+        'Administrator': User.query.join(Role).filter(Role.name == 'Administrator').all(),
+        'Moderator': User.query.join(Role).filter(Role.name == 'Moderator').all(),
+        'User': User.query.join(Role).filter(Role.name == 'User').all()
+    }
+
     user_all = User.query.all()  # Carrega todos os usuários
 
     if form.validate_on_submit():
@@ -92,4 +103,6 @@ def index():
 
     return render_template('index.html', form=form, name=session.get('name'),
                            known=session.get('known', False),
-                           user_all=user_all)
+                           user_all=user_all,
+                           total_users=total_users,
+                           users_by_role=users_by_role)
