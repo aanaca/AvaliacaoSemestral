@@ -28,13 +28,12 @@
         </select>
     </div>
     <div class="form-group">
-        {{ form.submit(class="btn btn-primary") }}
+        {{ form.submit(class="btn btn-default") }}
     </div>
 </form>
 
-<h2>Total de Usuários Cadastrados: {{ total_users }}</h2>
-
 <h3>Relação de Usuários Cadastrados</h3>
+<h1>quantidade: {{total_users}}</h1>
 <table class="table">
     <thead>
         <tr>
@@ -52,7 +51,7 @@
     </tbody>
 </table>
 
-<h3>Usuários por Função</h3>
+<h3>Relação de funções cadastradas</h3>
 
 {% for role, users in users_by_role.items() %}
     <h4>{{ role }}s</h4>
