@@ -73,7 +73,6 @@ def index():
         user = User.query.filter_by(username=form.name.data).first()
         
         if user is None:
-            # Obter a role baseada na escolha do formulário
             role_name = form.role.data
             user_role = Role.query.filter_by(name=role_name.capitalize()).first()
             
@@ -83,7 +82,6 @@ def index():
                 db.session.add(user_role)
                 db.session.commit()
             
-            # Criação do novo usuário com a role correta
             user = User(username=form.name.data, role=user_role)
             db.session.add(user)
             db.session.commit()
