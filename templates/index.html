@@ -12,7 +12,6 @@
     <p>Feliz em vê-lo novamente!</p>
     {% endif %}
 </div>
-{{ wtf.quick_form(form) }}
 
 <form method="POST" action="{{ url_for('index') }}">
     {{ form.hidden_tag() }}
@@ -21,11 +20,11 @@
         {{ form.name(class="form-control", size=32) }}
     </div>
     <div class="form-group">
-        <label for="role">Role:</label>
+        <label for="role">Função:</label>
         <select name="role" id="role" class="form-control">
             <option value="user">User</option>
-            <option value="mod">Mod</option>
-            <option value="admin">Admin</option>
+            <option value="mod">Moderator</option>
+            <option value="admin">Administrator</option>
         </select>
     </div>
     <div class="form-group">
@@ -33,23 +32,21 @@
     </div>
 </form>
 
-
-<h2>Relação de usuários cadastrados</h2>
+<h2>Relação de Usuários Cadastrados</h2>
 <table class="table">
     <thead>
         <tr>
-            <th>Nome do usuário</th>
+            <th>Nome do Usuário</th>
             <th>Função</th>
         </tr>
     </thead>
     <tbody>
-        {% for key in user_all %}
+        {% for user in user_all %}
         <tr>
-            <td>{{ key.username }}</td>
-            <td>{{ key.role.name }}</td>            
+            <td>{{ user.username }}</td>
+            <td>{{ user.role.name if user.role else 'User' }}</td>            
         </tr>
         {% endfor %}
     </tbody>
 </table>
-
 {% endblock %}
