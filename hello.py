@@ -65,20 +65,27 @@ def internal_server_error(e):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     form = NameForm()
-    user_all = User.query.all();
-    print(user_all);
     if form.validate_on_submit():
-        user = User.query.filter_by(username=form.name.data).first()                
+        role_name = request.form.get('role')  # Obtém a função selecionada no formulário
+        role = Role.query.filter_by(name=role_name).first()
+        
+        if role is None:
+            role = Role(name=role_name)
+            db.session.add(role)
+            db.session.commit()
+
+        user = User.query.filter_by(username=form.name.data).first()
         if user is None:
-            user_role = Role.query.filter_by(name='User').first();
-            user = User(username=form.name.data, role=user_role);
+            user = User(username=form.name.data, role=role)
             db.session.add(user)
             db.session.commit()
             session['known'] = False
         else:
             session['known'] = True
+
         session['name'] = form.name.data
         return redirect(url_for('index'))
+
+    users = User.query.all()  # Obtém todos os usuários
     return render_template('index.html', form=form, name=session.get('name'),
-                           known=session.get('known', False),
-                           user_all=user_all);
+                           known=session.get('known', False), user_all=users)
