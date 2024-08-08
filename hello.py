@@ -64,45 +64,32 @@ def internal_server_error(e):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     form = NameForm()
-    
-    # Contador de usuários
-    total_users = User.query.count()
-    
-    # Separar usuários por função
-    users_by_role = {
-        'Administrator': User.query.join(Role).filter(Role.name == 'Administrator').all(),
-        'Moderator': User.query.join(Role).filter(Role.name == 'Moderator').all(),
-        'User': User.query.join(Role).filter(Role.name == 'User').all()
-    }
-
-    user_all = User.query.all()  # Carrega todos os usuários
-
+    user_all = User.query.all()
+   
     if form.validate_on_submit():
-        role_name = request.form.get('role')  # Captura o valor da função selecionada no formulário
-        role = Role.query.filter_by(name=role_name).first()
-
-        if role is None:
-            role = Role(name=role_name)
-            db.session.add(role)
-            db.session.commit()
-
         user = User.query.filter_by(username=form.name.data).first()
-
+       
         if user is None:
-            user = User(username=form.name.data, role=role)
+            # Obter a role baseada na escolha do formulário
+            role_name = form.role.data
+            user_role = Role.query.filter_by(name=role_name.capitalize()).first()
+           
+            # Se a role não existir no banco de dados, você pode criar uma nova
+            if user_role is None:
+                user_role = Role(name=role_name.capitalize())
+                db.session.add(user_role)
+                db.session.commit()
+           
+            # Criação do novo usuário com a role correta
+            user = User(username=form.name.data, role=user_role)
             db.session.add(user)
             db.session.commit()
             session['known'] = False
         else:
-            user.role = role  # Atualiza a função do usuário existente
-            db.session.commit()
             session['known'] = True
-
+           
         session['name'] = form.name.data
         return redirect(url_for('index'))
-
+   
     return render_template('index.html', form=form, name=session.get('name'),
-                           known=session.get('known', False),
-                           user_all=user_all,
-                           total_users=total_users,
-                           users_by_role=users_by_role)
+                           known=session.get('known', False), user_all=user_all)
