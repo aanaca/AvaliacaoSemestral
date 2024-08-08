@@ -67,8 +67,9 @@ def internal_server_error(e):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     form = NameForm()
-    total_users = User.query.count()
+
     user_all = User.query.all()
+    total_users = User.query.count()
     
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.name.data).first()
