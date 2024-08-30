@@ -4,10 +4,9 @@
 
 {% block page_content %}
 <div class="page-header">
-    <h1>Cadastro de Disciplinas</h1>
+    <h1>Cadastre a nova disciplina e o semestre associado:</h1>
 </div>
 
-<!-- Formulário para cadastro de disciplinas -->
 <form method="POST" action="{{ url_for('cadastro_disciplinas') }}">
     {{ form.hidden_tag() }}
     <div class="form-group">
@@ -23,8 +22,7 @@
     </div>
 </form>
 
-<!-- Relação de disciplinas cadastradas -->
-<h2>Relação de Disciplinas Cadastradas</h2>
+<h2>Relação de disciplinas cadastradas</h2>
 <table class="table">
     <thead>
         <tr>
