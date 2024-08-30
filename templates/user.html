@@ -1,19 +1,15 @@
-{% extends "bootstrap/base.html" %}
+{% extends "base.html" %}
 
-{% block title %}Flasky{% endblock %}
+{% block title %}User Page{% endblock %}
 
 {% block page_content %}
 <div class="page-header">
-    <h1>Avaliação semestral</h1>
+    <h1>Informações do Usuário</h1>
 </div>
 <div class="page_content">
-    <h2>Aluno: {{name}}</h2>
-    <h2>Prontuário: {{prontuario}}</h2>
+    <h2>Nome: {{ name }}</h2>
+    <h2>Prontuário: {{ prontuario }}</h2>
+    <h2>Data e Hora Atual: {{ moment(current_time).format('LLL') }}</h2>
 </div>
-
-<div class="page-header">
-    <h1>Dados da última atualização:</h1>
-</div>
-<p>The local date and time is {{ moment(current_time).format('LLL') }}.</p>
-<p>That was {{ moment(current_time).fromNow(refresh=True) }}.</p>
 {% endblock %}
+
