@@ -88,12 +88,12 @@ def cadastro_disciplinas():
 
 @app.route('/cadastro/aluno')
 def cadastro_aluno():
-    return render_template('cadastro_aluno.html')
+    abort(404)
 
 
 @app.route('/cadastro/professores')
 def cadastro_professores():
-    return render_template('cadastro_professores.html')
+  abort(404)
 
 
 @app.shell_context_processor
