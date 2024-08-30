@@ -105,5 +105,5 @@ def index():
     return render_template('index.html', form=form, name=session.get('name'),
                            known=session.get('known', False), user_all=user_all,
                            user_count=user_count, roles_all=roles_all, 
-                           role_count=role_count)
-     return render_template('index.html', current_time=datetime.utcnow())
+                           role_count=role_count
+                           current_time=datetime.utcnow())
