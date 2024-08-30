@@ -9,7 +9,12 @@
 <div class="page_content">
     <h2>Aluno: {{name}}</h2>
     <h2>Prontuário: {{prontuario}}</h2>
-    <p>The local date and time is {{ moment(current_time).format('LLL') }}.</p>
-    <p>That was {{ moment(current_time).fromNow(refresh=True) }}.</p>
+    <p>Instituição: {{ institution }}</p>
 </div>
+
+<div class="page-header">
+    <h1>Dados da última atualização:</h1>
+</div>
+<p>The local date and time is {{ moment(current_time).format('LLL') }}.</p>
+<p>That was {{ moment(current_time).fromNow(refresh=True) }}.</p>
 {% endblock %}
