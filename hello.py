@@ -63,6 +63,13 @@ def page_not_found(e):
 def internal_server_error(e):
     return render_template('500.html'), 500
 
+@app.route('/user/<name>/<prontuario>/<institution>')
+def user(name, prontuario, institution):
+    return render_template('user.html', 
+                           name=name, 
+                           prontuario=prontuario,
+                           institution=institution);
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
