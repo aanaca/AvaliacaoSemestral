@@ -49,13 +49,47 @@ class NameForm(FlaskForm):
     role = SelectField('Função', choices=[('user', 'User'), ('mod', 'Moderator'), ('admin', 'Administrator')])
     submit = SubmitField('Submit')
 
+
+# Definição do modelo para Disciplinas
+class Disciplina(db.Model):
+    __tablename__ = 'disciplinas'
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(64), unique=True)
+    semestre = db.Column(db.String(20))
+
+    def __repr__(self):
+        return f'<Disciplina {self.nome} - {self.semestre}>'
+
+# Formulário para cadastro de disciplinas
+class DisciplinaForm(FlaskForm):
+    nome = StringField('Nome da Disciplina', validators=[DataRequired()])
+    semestre = SelectField('Semestre', choices=[
+        ('1º semestre', '1º semestre'),
+        ('2º semestre', '2º semestre'),
+        ('3º semestre', '3º semestre'),
+        ('4º semestre', '4º semestre'),
+        ('5º semestre', '5º semestre'),
+        ('6º semestre', '6º semestre')
+    ])
+    submit = SubmitField('Cadastrar')
+
+@app.route('/cadastro/disciplinas', methods=['GET', 'POST'])
+def cadastro_disciplinas():
+    form = DisciplinaForm()
+    if form.validate_on_submit():
+        disciplina = Disciplina(nome=form.nome.data, semestre=form.semestre.data)
+        db.session.add(disciplina)
+        db.session.commit()
+        return redirect(url_for('cadastro_disciplinas'))
+    
+    disciplinas = Disciplina.query.all()
+    return render_template('cadastro_disciplinas.html', form=form, disciplinas=disciplinas)
+
+
 @app.route('/cadastro/aluno')
 def cadastro_aluno():
     return render_template('cadastro_aluno.html')
 
-@app.route('/cadastro/disciplinas')
-def cadastro_disciplinas():
-    return render_template('cadastro_disciplinas.html')
 
 @app.route('/cadastro/professores')
 def cadastro_professores():
