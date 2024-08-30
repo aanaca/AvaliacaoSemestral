@@ -106,3 +106,4 @@ def index():
                            known=session.get('known', False), user_all=user_all,
                            user_count=user_count, roles_all=roles_all, 
                            role_count=role_count)
+     return render_template('index.html', current_time=datetime.utcnow())
