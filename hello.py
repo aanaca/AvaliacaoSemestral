@@ -121,39 +121,6 @@ def user(name, prontuario, institution):
                         current_time=current_time);
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET'])
 def index():
-    form = NameForm()
-
-    if form.validate_on_submit():
-        user = User.query.filter_by(username=form.name.data).first()
-
-        if user is None:
-            role_name = form.role.data
-            user_role = Role.query.filter_by(name=role_name.capitalize()).first()
-
-            if user_role is None:
-                user_role = Role(name=role_name.capitalize())
-                db.session.add(user_role)
-                db.session.commit()
-
-            user = User(username=form.name.data, role=user_role)
-            db.session.add(user)
-            db.session.commit()
-            session['known'] = False
-        else:
-            session['known'] = True
-
-        session['name'] = form.name.data
-        return redirect(url_for('index'))
-
-    user_all = User.query.all()
-    user_count = User.query.count()  
-    roles_all = Role.query.all()
-    role_count = Role.query.count() 
-
-    return render_template('index.html', form=form, name=session.get('name'),
-                           known=session.get('known', False), user_all=user_all,
-                           user_count=user_count, roles_all=roles_all, 
-                           role_count=role_count
-                           )
+    return render_template('index.html')
