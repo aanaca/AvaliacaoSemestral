@@ -28,6 +28,17 @@
     </div>
 </form>
 
+<h2>Links para Cadastro</h2>
+<ul>
+    <li><a href="{{ url_for('cadastro_aluno') }}">Cadastro de Alunos</a></li>
+    <li><a href="{{ url_for('cadastro_professores') }}">Cadastro de Professores</a></li>
+    <li><a href="{{ url_for('cadastro_disciplinas') }}">Cadastro de Disciplinas</a></li>
+</ul>
+
+<h2>Data e Hora Atual</h2>
+<p>The local date and time is {{ moment(current_time).format('LLL') }}.</p>
+<p>That was {{ moment(current_time).fromNow(refresh=True) }}.</p>
+
 <h2>Relação de Usuários Cadastrados</h2>
 <p>Quantidade: {{ user_count }}</p>
 <table class="table">
