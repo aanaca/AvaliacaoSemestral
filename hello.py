@@ -68,7 +68,8 @@ def user(name, prontuario, institution):
     return render_template('user.html', 
                            name=name, 
                            prontuario=prontuario,
-                           institution=institution);
+                           institution=institution,
+                           current_time=now);
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -106,4 +107,4 @@ def index():
                            known=session.get('known', False), user_all=user_all,
                            user_count=user_count, roles_all=roles_all, 
                            role_count=role_count
-                           current_time=datetime.utcnow())
+                           )
