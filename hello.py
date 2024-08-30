@@ -49,6 +49,18 @@ class NameForm(FlaskForm):
     role = SelectField('Função', choices=[('user', 'User'), ('mod', 'Moderator'), ('admin', 'Administrator')])
     submit = SubmitField('Submit')
 
+@app.route('/cadastro/aluno')
+def cadastro_aluno():
+    return render_template('cadastro_aluno.html')
+
+@app.route('/cadastro/disciplinas')
+def cadastro_disciplinas():
+    return render_template('cadastro_disciplinas.html')
+
+@app.route('/cadastro/professores')
+def cadastro_professores():
+    return render_template('cadastro_professores.html')
+
 
 @app.shell_context_processor
 def make_shell_context():
