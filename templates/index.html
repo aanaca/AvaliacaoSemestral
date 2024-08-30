@@ -5,56 +5,70 @@
 
 {% block page_content %}
 <div class="page-header">
-    <h1>Olá, {% if name %}{{ name }}{% else %}Stranger{% endif %}!</h1>
+    <h1>Olá, {% if name %}{{ name }}{% else %}Estranho{% endif %}!</h1>
     {% if not known %}
     <p>Prazer em conhecê-lo!</p>
     {% else %}
     <p>Feliz em vê-lo novamente!</p>
     {% endif %}
 </div>
-{{ wtf.quick_form(form) }}
 
-<h2>Relação de usuários cadastrados</h2>
-<h4>Quantidade: {{user_all|length}}</h4>
+<form method="POST" action="{{ url_for('index') }}">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+        {{ form.name.label(class="form-label") }}
+        {{ form.name(class="form-control", size=32) }}
+    </div>
+    <div class="form-group">
+        {{ form.role.label(class="form-label") }}
+        {{ form.role(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.submit(class="btn btn-default") }}
+    </div>
+</form>
+
+<h2>Relação de Usuários Cadastrados</h2>
+<p>Quantidade: {{ user_count }}</p>
 <table class="table">
     <thead>
         <tr>
-            <th>Nome do usuário</th>
+            <th>Nome do Usuário</th>
             <th>Função</th>
         </tr>
     </thead>
     <tbody>
-        {% for key in user_all %}
+        {% for user in user_all %}
         <tr>
-            <td>{{ key.username }}</td>
-            <td>{{ key.role.name }}</td>            
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-<h2>Relação de funções cadastradas</h2>
-<h4>Quantidade: {{role_all|length}}</h4>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Funções</th> 
-            <th>Usuários</th>           
-        </tr>
-    </thead>
-    <tbody>
-        {% for r in role_all %}
-        <tr>
-            <td>{{ r.name }}</td>   
-            <td>
-                <ol>
-                    {% for u in r.users.all() %}
-                    <li>{{ u.username }}</li>
-                    {% endfor %}
-                </ol>                
-            </td>                  
+            <td>{{ user.username }}</td>
+            <td>{{ user.role.name if user.role else 'User' }}</td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
 
+<h2>Relação de Funções Cadastradas</h2>
+<p>Quantidade: {{ role_count }}</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Função</th>
+            <th>Usuários</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for role in roles_all %}
+        <tr>
+            <td>{{ role.name }}</td>
+            <td>
+                {% for user in role.users %}
+                    {{ loop.index }}. {{ user.username }}<br>
+                {% else %}
+                    Nenhum usuário associado
+                {% endfor %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}
