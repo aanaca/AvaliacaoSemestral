@@ -44,7 +44,7 @@ class User(db.Model):
 
 
 class NameForm(FlaskForm):
-    name = StringField('What is your name?', validators=[DataRequired()])
+    name = StringField('Qual o seu nome?', validators=[DataRequired()])
     role = SelectField('Role', choices=[('user', 'User'), ('mod', 'Moderator'), ('admin', 'Administrator')])
     submit = SubmitField('Submit')
 
@@ -72,17 +72,14 @@ def index():
         user = User.query.filter_by(username=form.name.data).first()
 
         if user is None:
-            # Obter a role baseada na escolha do formulário
             role_name = form.role.data
             user_role = Role.query.filter_by(name=role_name.capitalize()).first()
 
-            # Se a role não existir no banco de dados, você pode criar uma nova
             if user_role is None:
                 user_role = Role(name=role_name.capitalize())
                 db.session.add(user_role)
                 db.session.commit()
 
-            # Criação do novo usuário com a role correta
             user = User(username=form.name.data, role=user_role)
             db.session.add(user)
             db.session.commit()
@@ -93,13 +90,10 @@ def index():
         session['name'] = form.name.data
         return redirect(url_for('index'))
 
-    # Recupera todos os usuários e conta a quantidade
     user_all = User.query.all()
-    user_count = User.query.count()  # Conta os usuários diretamente no banco de dados
-    
-    # Recupera todas as funções e seus respectivos usuários
+    user_count = User.query.count()  
     roles_all = Role.query.all()
-    role_count = Role.query.count()  # Conta as funções cadastradas
+    role_count = Role.query.count() 
 
     return render_template('index.html', form=form, name=session.get('name'),
                            known=session.get('known', False), user_all=user_all,
