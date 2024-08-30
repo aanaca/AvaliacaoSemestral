@@ -111,6 +111,7 @@ def internal_server_error(e):
     return render_template('500.html'), 500
 
 @app.route('/user/<name>/<prontuario>/<institution>')
+current_time = datetime.now()
 def user(name, prontuario, institution):
     return render_template('user.html', 
                            name=name, 
