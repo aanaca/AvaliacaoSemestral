@@ -3,39 +3,44 @@
 {% block title %}Cadastro de Disciplinas{% endblock %}
 
 {% block page_content %}
-    <div class="page-header">
-        <h1>Cadastre a nova disciplina e o semestre associado:</h1>
-    </div>
-    <form method="POST" action="{{ url_for('cadastro_disciplinas') }}">
-        {{ form.hidden_tag() }}
-        <div class="form-group">
-            {{ form.nome.label(class="form-label") }}
-            {{ form.nome(class="form-control", size=32) }}
-        </div>
-        <div class="form-group">
-            {{ form.semestre.label(class="form-label") }}
-            {{ form.semestre(class="form-control") }}
-        </div>
-        <div class="form-group">
-            {{ form.submit(class="btn btn-default") }}
-        </div>
-    </form>
+<div class="page-header">
+    <h1>Cadastre uma Nova Disciplina</h1>
+</div>
 
-    <h2>Relação de disciplinas cadastradas</h2>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Disciplina</th>
-                <th>Semestre</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for disciplina in disciplinas %}
-            <tr>
-                <td>{{ disciplina.nome }}</td>
-                <td>{{ disciplina.semestre }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<form method="POST" action="{{ url_for('cadastro_disciplinas') }}">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+        {{ form.nome.label(class="form-label") }}
+        {{ form.nome(class="form-control", size=32) }}
+    </div>
+    <div class="form-group">
+        {{ form.semestre.label(class="form-label") }}
+        {{ form.semestre(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.submit(class="btn btn-primary") }}
+    </div>
+</form>
+
+<h2>Relação de Disciplinas Cadastradas</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Disciplina</th>
+            <th>Semestre</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for disciplina in disciplinas %}
+        <tr>
+            <td>{{ disciplina.nome }}</td>
+            <td>{{ disciplina.semestre }}</td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="2">Nenhuma disciplina cadastrada.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}
