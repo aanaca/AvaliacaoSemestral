@@ -45,11 +45,6 @@ class User(db.Model):
         return '<User %r>' % self.username
 
 
-class NameForm(FlaskForm):
-    name = StringField('Qual o seu nome?', validators=[DataRequired()])
-    role = SelectField('Função', choices=[('user', 'User'), ('mod', 'Moderator'), ('admin', 'Administrator')])
-    submit = SubmitField('Submit')
-
 
 class Disciplina(db.Model):
     __tablename__ = 'disciplinas'
