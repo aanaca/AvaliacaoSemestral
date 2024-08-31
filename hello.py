@@ -60,7 +60,6 @@ class Disciplina(db.Model):
     def __repr__(self):
         return f'<Disciplina {self.nome} - {self.semestre}>'
 
-# Formulário para cadastro de disciplinas
 class DisciplinaForm(FlaskForm):
     nome = StringField('Nome da Disciplina', validators=[DataRequired()])
     semestre = SelectField('Semestre', choices=[
@@ -84,6 +83,7 @@ def cadastro_disciplinas():
     
     disciplinas = Disciplina.query.all()
     return render_template('cadastro_disciplinas.html', form=form, disciplinas=disciplinas)
+
 
 
 @app.route('/cadastro/aluno')
