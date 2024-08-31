@@ -50,7 +50,6 @@ class NameForm(FlaskForm):
     submit = SubmitField('Submit')
 
 
-# Definição do modelo para Disciplinas
 class Disciplina(db.Model):
     __tablename__ = 'disciplinas'
     id = db.Column(db.Integer, primary_key=True)
@@ -59,6 +58,7 @@ class Disciplina(db.Model):
 
     def __repr__(self):
         return f'<Disciplina {self.nome} - {self.semestre}>'
+
 
 class DisciplinaForm(FlaskForm):
     nome = StringField('Nome da Disciplina', validators=[DataRequired()])
@@ -72,6 +72,7 @@ class DisciplinaForm(FlaskForm):
     ])
     submit = SubmitField('Cadastrar')
 
+
 @app.route('/cadastro/disciplinas', methods=['GET', 'POST'])
 def cadastro_disciplinas():
     form = DisciplinaForm()
@@ -83,8 +84,6 @@ def cadastro_disciplinas():
     
     disciplinas = Disciplina.query.all()
     return render_template('cadastro_disciplinas.html', form=form, disciplinas=disciplinas)
-
-
 
 @app.route('/cadastro/aluno')
 def cadastro_aluno():
