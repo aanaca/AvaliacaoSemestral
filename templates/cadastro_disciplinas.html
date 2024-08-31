@@ -1,10 +1,9 @@
 {% extends "base.html" %}
-
 {% block title %}Cadastro de Disciplinas{% endblock %}
 
 {% block page_content %}
 <div class="page-header">
-    <h1>Cadastre a nova disciplina e o semestre associado:</h1>
+    <h1>Cadastro de Disciplinas</h1>
 </div>
 
 <form method="POST" action="{{ url_for('cadastro_disciplinas') }}">
@@ -22,7 +21,7 @@
     </div>
 </form>
 
-<h2>Relação de disciplinas cadastradas</h2>
+<h2>Relação de Disciplinas Cadastradas</h2>
 <table class="table">
     <thead>
         <tr>
