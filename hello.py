@@ -44,6 +44,10 @@ class User(db.Model):
     def __repr__(self):
         return '<User %r>' % self.username
 
+class NameForm(FlaskForm):
+    name = StringField('What is your name?', validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
 class Disciplina(db.Model):
     __tablename__ = 'disciplinas'
     id = db.Column(db.Integer, primary_key=True)
