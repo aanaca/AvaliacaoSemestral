@@ -73,17 +73,10 @@ class DisciplinaForm(FlaskForm):
     submit = SubmitField('Cadastrar')
 
 
-@app.route('/cadastro/disciplinas', methods=['GET', 'POST'])
+@app.route('/cadastro/disciplinas', methods=['GET'])
 def cadastro_disciplinas():
-    form = DisciplinaForm()
-    if form.validate_on_submit():
-        disciplina = Disciplina(nome=form.nome.data, semestre=form.semestre.data)
-        db.session.add(disciplina)
-        db.session.commit()
-        return redirect(url_for('cadastro_disciplinas'))
-    
-    disciplinas = Disciplina.query.all()
-    return render_template('cadastro_disciplinas.html', form=form, disciplinas=disciplinas)
+    return "Página de Cadastro de Disciplinas"
+
 
 @app.route('/cadastro/aluno')
 def cadastro_aluno():
